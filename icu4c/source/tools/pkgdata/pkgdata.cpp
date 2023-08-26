@@ -2027,7 +2027,7 @@ static UPKGOptions *pkg_checkFlag(UPKGOptions *o) {
             T_FileStream_close(f);
         }
     }
-#elif U_PLATFORM == U_PF_CYGWIN || U_PLATFORM == U_PF_MINGW
+#elif U_PLATFORM == U_PF_CYGWIN /*|| U_PLATFORM == U_PF_MINGW*/
     /* Cygwin needs to change flag options. */
     char *flag = nullptr;
     int32_t length = 0;
