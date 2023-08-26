@@ -23,6 +23,8 @@
 
 #define BYTE(b) (((int) b) & 0xFF)
 
+using namespace icu;
+
 /*
  * Read the text from a file. The text must start with a Unicode Byte
  * Order Mark (BOM) so that we know what order to read the bytes in.

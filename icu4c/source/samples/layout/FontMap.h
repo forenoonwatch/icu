@@ -27,7 +27,7 @@ public:
 
     virtual ~FontMap();
 
-    virtual const LEFontInstance *getScriptFont(le_int32 scriptCode, LEErrorCode &status);
+    virtual const icu::LEFontInstance *getScriptFont(le_int32 scriptCode, LEErrorCode &status);
 
     virtual le_int16 getPointSize() const;
 
@@ -38,7 +38,7 @@ public:
     virtual le_int32 getLeading() const;
 
 protected:
-    virtual const LEFontInstance *openFont(const char *fontName, le_int16 pointSize, LEErrorCode &status) = 0;
+    virtual const icu::LEFontInstance *openFont(const char *fontName, le_int16 pointSize, LEErrorCode &status) = 0;
 
     char errorMessage[256];
 
@@ -56,9 +56,9 @@ private:
 
     GUISupport *fGUISupport;
 
-    const LEFontInstance *fFontInstances[scriptCodeCount];
-    const char *fFontNames[scriptCodeCount];
-    le_int32 fFontIndices[scriptCodeCount];
+    const icu::LEFontInstance *fFontInstances[icu::scriptCodeCount];
+    const char *fFontNames[icu::scriptCodeCount];
+    le_int32 fFontIndices[icu::scriptCodeCount];
 };
 
 inline le_int16 FontMap::getPointSize() const

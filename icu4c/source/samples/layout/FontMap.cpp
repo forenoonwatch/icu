@@ -23,6 +23,8 @@
 #include "GUISupport.h"
 #include "FontMap.h"
 
+using namespace icu;
+
 FontMap::FontMap(const char *fileName, le_int16 pointSize, GUISupport *guiSupport, LEErrorCode &status)
     : fPointSize(pointSize), fFontCount(0), fAscent(0), fDescent(0), fLeading(0), fGUISupport(guiSupport)
 {

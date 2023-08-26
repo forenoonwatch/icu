@@ -29,7 +29,7 @@ public:
     RenderingSurface() {};
     virtual ~RenderingSurface() {};
 
-    virtual void drawGlyphs(const LEFontInstance *font, const LEGlyphID *glyphs, le_int32 count,
+    virtual void drawGlyphs(const icu::LEFontInstance *font, const LEGlyphID *glyphs, le_int32 count,
                     const float *positions, le_int32 x, le_int32 y, le_int32 width, le_int32 height) = 0;
 };
 

@@ -18,7 +18,7 @@
 
 // U_NAMESPACE_BEGIN
 
-class ScriptCompositeFontInstance : public LEFontInstance
+class ScriptCompositeFontInstance : public icu::LEFontInstance
 {
 public:
 
@@ -75,7 +75,7 @@ public:
      *
      * @see LEScripts.h
      */
-    virtual const LEFontInstance *getSubFont(const LEUnicode chars[], le_int32 *offset, le_int32 limit, le_int32 script, LEErrorCode &success) const;
+    virtual const icu::LEFontInstance *getSubFont(const LEUnicode chars[], le_int32 *offset, le_int32 limit, le_int32 script, LEErrorCode &success) const;
 
     /**
      * This method maps a single character to a glyph index, using the
@@ -87,7 +87,7 @@ public:
      */
     virtual LEGlyphID mapCharToGlyph(LEUnicode32 ch) const;
 
-    virtual const void *getFontTable(LETag tableTag) const;
+    virtual const void *getFontTable(LETag tableTag, size_t& length) const;
 
     virtual le_int32 getUnitsPerEM() const;
 
@@ -131,7 +131,7 @@ private:
     static const char fgClassID;
 };
 
-inline const void *ScriptCompositeFontInstance::getFontTable(LETag /*tableTag*/) const
+inline const void *ScriptCompositeFontInstance::getFontTable(LETag /*tableTag*/, size_t& /*length*/) const
 {
     return nullptr;
 }

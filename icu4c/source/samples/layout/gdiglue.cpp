@@ -10,18 +10,19 @@
 #include <windows.h>
 
 #include "unicode/utypes.h"
-#include "loengine.h"
+#include "layout/loengine.h"
 #include "rsurface.h"
 #include "gsupport.h"
 
 #include "gdiglue.h"
 
-#include "LETypes.h"
-#include "LEFontInstance.h"
+#include "layout/LETypes.h"
+#include "layout/LEFontInstance.h"
 #include "GDIGUISupport.h"
 #include "GDIFontMap.h"
 #include "ScriptCompositeFontInstance.h"
 
+using namespace icu;
 
 U_CDECL_BEGIN
 

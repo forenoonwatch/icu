@@ -33,7 +33,7 @@ public:
     virtual ~GDIFontMap();
 
 protected:
-    virtual const LEFontInstance *openFont(const char *fontName, le_int16 pointSize, LEErrorCode &status);
+    virtual const icu::LEFontInstance *openFont(const char *fontName, le_int16 pointSize, LEErrorCode &status);
 
 private:
     GDISurface *fSurface;

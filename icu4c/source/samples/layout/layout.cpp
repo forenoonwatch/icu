@@ -29,6 +29,8 @@
 
 #include "resource.h"
 
+using namespace icu;
+
 #define ARRAY_LENGTH(array) (sizeof array / sizeof array[0])
 
 struct Context
@@ -44,7 +46,7 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 TCHAR szAppName[] = TEXT(APP_NAME);
 
-void PrettyTitle(HWND hwnd, char *fileName)
+void PrettyTitle(HWND hwnd, const char *fileName)
 {
     char title[MAX_PATH + 64];
 
@@ -138,7 +140,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         hdc = GetDC(hwnd);
         surface = new GDISurface(hdc);
 
-        fontMap = new GDIFontMap(surface, "FontMap.GDI", 24, guiSupport, fontStatus);
+        fontMap = new GDIFontMap(surface, "FontMap.GDI", 12, guiSupport, fontStatus);
         font    = new ScriptCompositeFontInstance(fontMap);
 
         if (LE_FAILURE(fontStatus)) {
@@ -253,7 +255,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             // NOTE: si.nPos + si.nPage may include a partial line at the bottom
             // of the window. We need this because scrolling assumes that the
             // partial line has been painted.
-            lastLine  = min (si.nPos + (le_int32) si.nPage, context->paragraph->getLineCount() - 1);
+            lastLine  = std::min (si.nPos + (le_int32) si.nPage, context->paragraph->getLineCount() - 1);
 
             context->paragraph->draw(surface, firstLine, lastLine);
         }

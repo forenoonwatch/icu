@@ -17,6 +17,9 @@
  *   created by: Eric R. Mader
  */
 
+#ifndef UNICODE
+#define UNICODE
+#endif // UNICODE
 #include <windows.h>
 
 #include "layout/LETypes.h"
@@ -26,6 +29,8 @@
 #include "GDIFontInstance.h"
 #include "sfnt.h"
 #include "cmaps.h"
+
+using namespace icu;
 
 GDISurface::GDISurface(HDC theHDC)
     : fHdc(theHDC), fCurrentFont(nullptr)
@@ -96,7 +101,7 @@ void GDISurface::drawGlyphs(const LEFontInstance *font, const LEGlyphID *glyphs,
             dyEnd += 1;
         }
 
-        ExtTextOut(fHdc, x + (le_int32) xOffset, y + (le_int32) yOffset - font->getAscent(), ETO_CLIPPED | ETO_GLYPH_INDEX, &clip,
+        ExtTextOutW(fHdc, x + (le_int32) xOffset, y + (le_int32) yOffset - font->getAscent(), ETO_CLIPPED | ETO_GLYPH_INDEX, &clip,
             (LPCWSTR) &ttGlyphs[dyStart], dyEnd - dyStart, (INT *) &dx[dyStart]);
 
         dyStart = dyEnd;
@@ -266,7 +271,8 @@ GDIFontInstance::GDIFontInstance(GDISurface *surface, const char *faceName, le_i
         const HHEATable *hheaTable = nullptr;
 
         // read unitsPerEm from 'head' table
-        headTable = (const HEADTable *) readFontTable(LE_HEAD_TABLE_TAG);
+		size_t tableLength{};
+        headTable = (const HEADTable *) readFontTable(LE_HEAD_TABLE_TAG, tableLength);
 
         if (headTable == nullptr) {
             status = LE_MISSING_FONT_TABLE_ERROR;
@@ -276,7 +282,7 @@ GDIFontInstance::GDIFontInstance(GDISurface *surface, const char *faceName, le_i
         fUnitsPerEM   = SWAPW(headTable->unitsPerEm);
         freeFontTable((const void *)headTable);
 
-        hheaTable = (HHEATable *) readFontTable(LE_HHEA_TABLE_TAG);
+        hheaTable = (HHEATable *) readFontTable(LE_HHEA_TABLE_TAG, tableLength);
 
         if (hheaTable == nullptr) {
             status = LE_MISSING_FONT_TABLE_ERROR;
@@ -323,7 +329,8 @@ GDIFontInstance::~GDIFontInstance()
 LEErrorCode GDIFontInstance::initMapper()
 {
     LETag cmapTag = LE_CMAP_TABLE_TAG;
-    const CMAPTable *cmap = (const CMAPTable *) readFontTable(cmapTag);
+	size_t tableLength{};
+    const CMAPTable *cmap = (const CMAPTable *) readFontTable(cmapTag, tableLength);
 
     if (cmap == nullptr) {
         return LE_MISSING_FONT_TABLE_ERROR;
@@ -338,12 +345,12 @@ LEErrorCode GDIFontInstance::initMapper()
     return LE_NO_ERROR;
 }
 
-const void *GDIFontInstance::getFontTable(LETag tableTag) const
+const void *GDIFontInstance::getFontTable(LETag tableTag, size_t& length) const
 {
-    return FontTableCache::find(tableTag);
+    return FontTableCache::find(tableTag, length);
 }
 
-const void *GDIFontInstance::readFontTable(LETag tableTag) const
+const void *GDIFontInstance::readFontTable(LETag tableTag, size_t& length) const
 {
     fSurface->setFont(this);
 
@@ -357,6 +364,7 @@ const void *GDIFontInstance::readFontTable(LETag tableTag) const
         GetFontData(hdc, stag, 0, result, len);
     }
 
+	length = static_cast<size_t>(len);
     return result;
 }
 

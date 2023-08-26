@@ -29,7 +29,8 @@
 #include "paragraph.h"
 #include "UnicodeReader.h"
 
-#define MARGIN 10
+#undef MARGIN
+#define MARGIN 0
 #define LINE_GROW 32
 #define PARA_GROW 8
 
@@ -118,6 +119,7 @@ Paragraph::Paragraph(const LEUnicode chars[], int32_t charCount, const FontRuns 
         if (pEnd != pStart) {
             subsetFontRuns(fontRuns, pStart - fChars, pEnd - fChars, &fr);
 
+			puts("Creating new paragraph");
             paragraphLayout = new ParagraphLayout(pStart, pEnd - pStart, &fr, nullptr, nullptr, locales, fParagraphLevel, false, status);
 
             if (LE_FAILURE(status)) {

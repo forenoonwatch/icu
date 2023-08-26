@@ -19,6 +19,8 @@
 #include "FontMap.h"
 #include "GDIFontMap.h"
 
+using namespace icu;
+
 GDIFontMap::GDIFontMap(GDISurface *surface, const char *fileName, le_int16 pointSize, GUISupport *guiSupport, LEErrorCode &status)
     : FontMap(fileName, pointSize, guiSupport, status), fSurface(surface)
 {

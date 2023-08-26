@@ -37,7 +37,7 @@ public:
     GDISurface(HDC theHDC);
     virtual ~GDISurface();
 
-    virtual void drawGlyphs(const LEFontInstance *font, const LEGlyphID *glyphs, le_int32 count,
+    virtual void drawGlyphs(const icu::LEFontInstance *font, const LEGlyphID *glyphs, le_int32 count,
         const float *positions, le_int32 x, le_int32 y, le_int32 width, le_int32 height);
 
     void setFont(const GDIFontInstance *font);
@@ -54,7 +54,7 @@ inline HDC GDISurface::getHDC() const
     return fHdc;
 }
 
-class GDIFontInstance : public LEFontInstance, protected FontTableCache
+class GDIFontInstance : public icu::LEFontInstance, protected FontTableCache
 {
 protected:
     GDISurface *fSurface;
@@ -71,7 +71,7 @@ protected:
 
     CMAPMapper *fMapper;
 
-    virtual const void *readFontTable(LETag tableTag) const;
+    virtual const void *readFontTable(LETag tableTag, size_t& length) const;
 
     virtual LEErrorCode initMapper();
 
@@ -84,7 +84,7 @@ public:
 
     HFONT getFont() const;
 
-    virtual const void *getFontTable(LETag tableTag) const;
+    virtual const void *getFontTable(LETag tableTag, size_t& length) const;
 
     virtual le_int32 getUnitsPerEM() const;
 
