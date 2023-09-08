@@ -304,7 +304,7 @@ typedef double UDate;
 #define U_IO_API       U_EXPORT
 #define U_TOOLUTIL_API U_EXPORT
 #elif defined(U_STATIC_IMPLEMENTATION)
-#define U_DATA_API
+#define U_DATA_API U_IMPORT
 #define U_COMMON_API
 #define U_I18N_API
 #define U_LAYOUT_API
