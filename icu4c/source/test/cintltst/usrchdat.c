@@ -18,6 +18,7 @@ Note: This file is included by other C and C++ files. This file should not be di
 #define USRCHDAT_C
 
 #include "unicode/ucol.h"
+#include <unicode/usearch.h>
 
 #if !UCONFIG_NO_COLLATION
 
